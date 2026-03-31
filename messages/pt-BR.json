@@ -1,0 +1,75 @@
+{
+  "nav": {
+    "portfolio": "Portfólio",
+    "about": "Sobre",
+    "contact": "Contato",
+    "switchLang": "EN"
+  },
+  "hero": {
+    "tagline": "Capturando momentos,",
+    "tagline2": "contando histórias.",
+    "cta": "Ver Portfólio"
+  },
+  "portfolio": {
+    "title": "Portfólio",
+    "subtitle": "Uma seleção cuidadosa de trabalhos que abrangem paisagens, retratos e momentos íntimos.",
+    "categories": {
+      "all": "Todos",
+      "landscape": "Paisagem",
+      "portrait": "Retrato",
+      "urban": "Urbano",
+      "nature": "Natureza"
+    }
+  },
+  "about": {
+    "title": "Sobre",
+    "subtitle": "O olhar por trás da lente",
+    "bio1": "Laura Peixoto é uma fotógrafa de Belo Horizonte com mais de uma década de experiência em capturar a beleza nos momentos cotidianos. Seu trabalho une sensibilidade documental a uma refinada sensibilidade estética.",
+    "bio2": "Formada em artes visuais e autodidata em fotografia, Laura desenvolveu um estilo singular que celebra a luz natural, as conexões humanas e a poesia silenciosa do mundo ao nosso redor.",
+    "bio3": "Seu trabalho já foi exposto por todo o Brasil e internacionalmente, e apareceu nas principais publicações de lifestyle e editorial.",
+    "stats": {
+      "years": "Anos de Experiência",
+      "projects": "Projetos Realizados",
+      "exhibitions": "Exposições",
+      "countries": "Países"
+    },
+    "services": {
+      "title": "Serviços",
+      "editorial": "Editorial",
+      "editorial_desc": "Editoriais de revista, campanhas de marca e narrativa visual.",
+      "portrait": "Retratos",
+      "portrait_desc": "Sessões de retrato individual, familiar e corporativo.",
+      "events": "Eventos",
+      "events_desc": "Casamentos, eventos culturais e celebrações privadas.",
+      "fine_art": "Arte",
+      "fine_art_desc": "Impressões em edição limitada disponíveis para compra."
+    }
+  },
+  "contact": {
+    "title": "Contato",
+    "subtitle": "Vamos criar algo juntos",
+    "form": {
+      "name": "Nome",
+      "email": "E-mail",
+      "subject": "Assunto",
+      "message": "Mensagem",
+      "send": "Enviar Mensagem",
+      "sending": "Enviando...",
+      "success": "Mensagem enviada! Entrarei em contato em breve.",
+      "namePlaceholder": "Seu nome",
+      "emailPlaceholder": "seu@email.com",
+      "subjectPlaceholder": "Qual é o assunto?",
+      "messagePlaceholder": "Fale sobre o seu projeto..."
+    },
+    "info": {
+      "location": "Belo Horizonte, Brasil",
+      "email": "laura@laurapeixoto.com",
+      "instagram": "@laurapeixotoph",
+      "availability": "Disponível para novos projetos"
+    }
+  },
+  "footer": {
+    "rights": "Todos os direitos reservados.",
+    "madeWith": "Fotografia como linguagem."
+  }
+}
