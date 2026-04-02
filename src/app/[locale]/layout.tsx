@@ -24,13 +24,13 @@ export async function generateMetadata({
   params: Promise<{ locale: string }>;
 }): Promise<Metadata> {
   const { locale } = await params;
-  const t = await getTranslations({ locale, namespace: "hero" });
+  const t = await getTranslations({ locale, namespace: "shop" });
 
   return {
-    title: "Laura Peixoto — Photography",
-    description: `${t("tagline")} ${t("tagline2")}`,
+    title: "Laura Peixoto — Fine Art Prints",
+    description: t("subtitle"),
     openGraph: {
-      title: "Laura Peixoto — Photography",
+      title: "Laura Peixoto — Fine Art Prints",
       type: "website",
     },
   };

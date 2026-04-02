@@ -1,18 +1,15 @@
 {
-  "nav": {
-    "portfolio": "Portfolio",
-    "about": "About",
-    "contact": "Contact",
-    "switchLang": "PT"
-  },
-  "hero": {
-    "tagline": "Capturing moments,",
-    "tagline2": "telling stories.",
-    "cta": "View Portfolio"
-  },
-  "portfolio": {
-    "title": "Portfolio",
-    "subtitle": "A curated selection of work spanning landscapes, portraits, and intimate moments.",
+  "shop": {
+    "title": "Fine Art Prints",
+    "subtitle": "Limited edition photographic prints, hand-selected and signed. Each image is printed on archival paper and ships worldwide.",
+    "fromPrice": "From {price}",
+    "viewPrint": "View print",
+    "selectSize": "Select size",
+    "edition": "Limited edition — {count} prints",
+    "buy": "Buy print",
+    "processing": "Processing...",
+    "buyError": "Something went wrong. Please try again.",
+    "paymentNote": "Secure payment via Mercado Pago",
     "categories": {
       "all": "All",
       "landscape": "Landscape",
@@ -21,52 +18,12 @@
       "nature": "Nature"
     }
   },
-  "about": {
-    "title": "About",
-    "subtitle": "The eye behind the lens",
-    "bio1": "Laura Peixoto is a Belo Horizonte-based photographer with over a decade of experience capturing the beauty in everyday moments. Her work blends documentary sensitivity with a refined aesthetic sensibility.",
-    "bio2": "Trained in visual arts and self-taught in photography, Laura has developed a distinctive style that celebrates natural light, human connection, and the quiet poetry of the world around us.",
-    "bio3": "Her work has been exhibited across Brazil and internationally, and has appeared in leading lifestyle and editorial publications.",
-    "stats": {
-      "years": "Years of Experience",
-      "projects": "Projects Completed",
-      "exhibitions": "Exhibitions",
-      "countries": "Countries"
-    },
-    "services": {
-      "title": "Services",
-      "editorial": "Editorial",
-      "editorial_desc": "Magazine spreads, brand campaigns, and visual storytelling.",
-      "portrait": "Portraits",
-      "portrait_desc": "Individual, family, and corporate portrait sessions.",
-      "events": "Events",
-      "events_desc": "Weddings, cultural events, and private celebrations.",
-      "fine_art": "Fine Art",
-      "fine_art_desc": "Limited edition prints available for purchase."
-    }
-  },
-  "contact": {
-    "title": "Contact",
-    "subtitle": "Let's create something together",
-    "form": {
-      "name": "Name",
-      "email": "Email",
-      "subject": "Subject",
-      "message": "Message",
-      "send": "Send Message",
-      "sending": "Sending...",
-      "success": "Message sent! I'll be in touch soon.",
-      "namePlaceholder": "Your name",
-      "emailPlaceholder": "your@email.com",
-      "subjectPlaceholder": "What's this about?",
-      "messagePlaceholder": "Tell me about your project..."
-    },
-    "info": {
-      "location": "Belo Horizonte, Brazil",
-      "email": "laura@laurapeixoto.com",
-      "instagram": "@laurapeixotoph",
-      "availability": "Currently available for new projects"
-    }
+  "order": {
+    "successTitle": "Order confirmed",
+    "successMessage": "Thank you for your purchase. You'll receive a confirmation email shortly with your order details.",
+    "failureTitle": "Payment not completed",
+    "failureMessage": "Something went wrong with your payment. No charges were made. Please try again.",
+    "backToShop": "Back to shop"
   },
   "footer": {
     "rights": "All rights reserved.",

@@ -1,16 +1,14 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { useTranslations, useLocale } from "next-intl";
+import { useEffect, useState } from "react";
+import { useLocale } from "next-intl";
 import { Link, usePathname, useRouter } from "@/i18n/navigation";
 
 export default function Navbar() {
-  const t = useTranslations("nav");
   const locale = useLocale();
   const pathname = usePathname();
   const router = useRouter();
   const [scrolled, setScrolled] = useState(false);
-  const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 40);
@@ -23,116 +21,47 @@ export default function Navbar() {
     router.replace(pathname, { locale: next });
   };
 
-  const navLinks = [
-    { href: "/gallery", label: t("portfolio") },
-    { href: "/about", label: t("about") },
-    { href: "/contact", label: t("contact") },
-  ];
-
-  const overImage = !scrolled;
+  const nextLang = locale === "en" ? "PT" : "EN";
 
   return (
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
-        scrolled
-          ? "bg-stone-50 shadow-sm"
-          : "bg-gradient-to-b from-stone-950/50 to-transparent"
+        scrolled ? "bg-stone-50 shadow-sm" : "bg-stone-50/95 backdrop-blur-sm"
       }`}
     >
       <nav className="max-w-7xl mx-auto px-6 lg:px-12 h-20 flex items-center justify-between">
-        {/* Logo */}
         <Link
           href="/"
-          className={`font-[family-name:var(--font-playfair)] text-xl tracking-wide transition-colors ${
-            overImage
-              ? "text-white hover:text-stone-200"
-              : "text-stone-900 hover:text-stone-600"
-          }`}
+          className="font-[family-name:var(--font-playfair)] text-xl tracking-wide text-stone-900 hover:text-stone-600 transition-colors"
         >
           Laura Peixoto
         </Link>
 
-        {/* Desktop links */}
-        <div className="hidden md:flex items-center gap-10">
-          {navLinks.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              className={`text-sm tracking-widest uppercase transition-colors relative group ${
-                overImage
-                  ? "text-stone-200 hover:text-white"
-                  : "text-stone-700 hover:text-stone-900"
-              }`}
+        <div className="flex items-center gap-6">
+          <a
+            href="https://www.instagram.com/laurapeixotoph"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-stone-400 hover:text-stone-900 transition-colors"
+            aria-label="Instagram"
+          >
+            <svg
+              className="w-4 h-4"
+              fill="currentColor"
+              viewBox="0 0 24 24"
+              aria-hidden="true"
             >
-              {link.label}
-              <span
-                className={`absolute -bottom-0.5 left-0 w-0 h-px transition-all duration-300 group-hover:w-full ${
-                  overImage ? "bg-white" : "bg-stone-900"
-                }`}
-              />
-            </Link>
-          ))}
+              <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z" />
+            </svg>
+          </a>
           <button
             onClick={switchLocale}
-            className={`text-sm tracking-widest uppercase transition-colors border px-3 py-1 rounded-full ${
-              overImage
-                ? "text-stone-300 hover:text-white border-stone-400 hover:border-white"
-                : "text-stone-500 hover:text-stone-800 border-stone-300 hover:border-stone-600"
-            }`}
+            className="cursor-pointer text-xs tracking-widest uppercase text-stone-500 hover:text-stone-900 border border-stone-300 hover:border-stone-600 px-3 py-1 rounded-full transition-colors"
           >
-            {t("switchLang")}
-          </button>
-        </div>
-
-        {/* Mobile: lang + burger */}
-        <div className="flex md:hidden items-center gap-4">
-          <button
-            onClick={switchLocale}
-            className={`text-xs tracking-widest uppercase border px-2.5 py-1 rounded-full transition-colors ${
-              overImage
-                ? "text-stone-300 border-stone-400"
-                : "text-stone-600 border-stone-400"
-            }`}
-          >
-            {t("switchLang")}
-          </button>
-          <button
-            onClick={() => setMenuOpen(!menuOpen)}
-            className="flex flex-col gap-1.5 p-1"
-            aria-label="Toggle menu"
-          >
-            <span
-              className={`block w-6 h-px transition-all duration-300 ${overImage ? "bg-white" : "bg-stone-800"} ${menuOpen ? "rotate-45 translate-y-2" : ""}`}
-            />
-            <span
-              className={`block w-6 h-px transition-all duration-300 ${overImage ? "bg-white" : "bg-stone-800"} ${menuOpen ? "opacity-0" : ""}`}
-            />
-            <span
-              className={`block w-6 h-px transition-all duration-300 ${overImage ? "bg-white" : "bg-stone-800"} ${menuOpen ? "-rotate-45 -translate-y-2" : ""}`}
-            />
+            {nextLang}
           </button>
         </div>
       </nav>
-
-      {/* Mobile menu */}
-      <div
-        className={`md:hidden overflow-hidden transition-all duration-300 bg-stone-50/98 backdrop-blur-sm ${
-          menuOpen ? "max-h-60" : "max-h-0"
-        }`}
-      >
-        <div className="px-6 pb-8 pt-4 flex flex-col gap-6">
-          {navLinks.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              onClick={() => setMenuOpen(false)}
-              className="text-sm tracking-widest uppercase text-stone-600 hover:text-stone-900 transition-colors"
-            >
-              {link.label}
-            </Link>
-          ))}
-        </div>
-      </div>
     </header>
   );
 }
