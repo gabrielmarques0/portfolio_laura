@@ -6,8 +6,7 @@
     "viewPrint": "Ver impressão",
     "selectSize": "Selecionar tamanho",
     "edition": "Edição limitada — {count} unidades",
-    "buy": "Comprar impressão",
-    "processing": "Processando...",
+    "addToCart": "Adicionar ao carrinho",
     "buyError": "Algo deu errado. Por favor, tente novamente.",
     "paymentNote": "Pagamento seguro via Mercado Pago",
     "categories": {
@@ -18,11 +17,42 @@
       "nature": "Natureza"
     }
   },
+  "cart": {
+    "title": "Carrinho",
+    "empty": "Seu carrinho está vazio.",
+    "total": "Total",
+    "checkout": "Ir para o checkout",
+    "clear": "Limpar carrinho",
+    "remove": "Remover",
+    "confirmTitle": "Remover impressão?",
+    "confirmMessage": "Remover \"{title}\" do seu carrinho?",
+    "confirmYes": "Remover",
+    "confirmNo": "Manter"
+  },
+  "checkout": {
+    "title": "Checkout",
+    "orderSummary": "Resumo do pedido",
+    "total": "Total",
+    "contactTitle": "Seus dados",
+    "emailLabel": "E-mail",
+    "emailPlaceholder": "seu@email.com",
+    "emailNote": "Seus arquivos digitais serão enviados para este e-mail após a confirmação do pagamento.",
+    "emailError": "Por favor, insira um endereço de e-mail válido.",
+    "updatesLabel": "Receber novidades e novas coleções de Laura Peixoto",
+    "submit": "Ir para o pagamento",
+    "processing": "Processando...",
+    "error": "Algo deu errado. Por favor, tente novamente.",
+    "emptyCart": "Seu carrinho está vazio.",
+    "backToShop": "Voltar à loja",
+    "paymentNote": "Pagamento seguro via Mercado Pago"
+  },
   "order": {
     "successTitle": "Pedido confirmado",
-    "successMessage": "Obrigada pela sua compra. Você receberá um e-mail de confirmação em breve com os detalhes do seu pedido.",
+    "successMessage": "Obrigada pela sua compra. Seus arquivos digitais serão enviados ao seu e-mail após a confirmação do pagamento.",
     "failureTitle": "Pagamento não concluído",
     "failureMessage": "Algo deu errado com o seu pagamento. Nenhuma cobrança foi realizada. Por favor, tente novamente.",
+    "pendingTitle": "Pagamento pendente",
+    "pendingMessage": "Seu pagamento está sendo processado. Você receberá um e-mail com seus arquivos digitais assim que for aprovado.",
     "backToShop": "Voltar à loja"
   },
   "footer": {

@@ -4,6 +4,8 @@ import { NextIntlClientProvider, hasLocale } from "next-intl";
 import { notFound } from "next/navigation";
 import { routing } from "@/i18n/routing";
 import { getTranslations } from "next-intl/server";
+import { CartProvider } from "@/context/CartContext";
+import CartDrawer from "@/components/CartDrawer";
 import "../globals.css";
 
 const playfair = Playfair_Display({
@@ -58,7 +60,10 @@ export default async function LocaleLayout({
     <html lang={locale} className={`${playfair.variable} ${inter.variable}`}>
       <body className="bg-stone-50 text-stone-900 antialiased">
         <NextIntlClientProvider locale={locale} messages={messages}>
-          {children}
+          <CartProvider>
+            {children}
+            <CartDrawer />
+          </CartProvider>
         </NextIntlClientProvider>
       </body>
     </html>

@@ -6,8 +6,7 @@
     "viewPrint": "View print",
     "selectSize": "Select size",
     "edition": "Limited edition — {count} prints",
-    "buy": "Buy print",
-    "processing": "Processing...",
+    "addToCart": "Add to cart",
     "buyError": "Something went wrong. Please try again.",
     "paymentNote": "Secure payment via Mercado Pago",
     "categories": {
@@ -18,11 +17,42 @@
       "nature": "Nature"
     }
   },
+  "cart": {
+    "title": "Cart",
+    "empty": "Your cart is empty.",
+    "total": "Total",
+    "checkout": "Proceed to checkout",
+    "clear": "Clear cart",
+    "remove": "Remove",
+    "confirmTitle": "Remove print?",
+    "confirmMessage": "Remove \"{title}\" from your cart?",
+    "confirmYes": "Remove",
+    "confirmNo": "Keep"
+  },
+  "checkout": {
+    "title": "Checkout",
+    "orderSummary": "Order summary",
+    "total": "Total",
+    "contactTitle": "Your details",
+    "emailLabel": "Email",
+    "emailPlaceholder": "your@email.com",
+    "emailNote": "Your digital files will be sent to this email after payment confirmation.",
+    "emailError": "Please enter a valid email address.",
+    "updatesLabel": "Receive updates and new collections from Laura Peixoto",
+    "submit": "Proceed to payment",
+    "processing": "Processing...",
+    "error": "Something went wrong. Please try again.",
+    "emptyCart": "Your cart is empty.",
+    "backToShop": "Back to shop",
+    "paymentNote": "Secure payment via Mercado Pago"
+  },
   "order": {
     "successTitle": "Order confirmed",
-    "successMessage": "Thank you for your purchase. You'll receive a confirmation email shortly with your order details.",
+    "successMessage": "Thank you for your purchase. Your digital files will be sent to your email once payment is confirmed.",
     "failureTitle": "Payment not completed",
     "failureMessage": "Something went wrong with your payment. No charges were made. Please try again.",
+    "pendingTitle": "Payment pending",
+    "pendingMessage": "Your payment is being processed. You'll receive a confirmation email with your digital files once it's approved.",
     "backToShop": "Back to shop"
   },
   "footer": {
