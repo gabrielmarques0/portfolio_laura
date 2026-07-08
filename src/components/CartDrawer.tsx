@@ -13,9 +13,19 @@ export default function CartDrawer() {
   const t = useTranslations("cart");
   const locale = useLocale();
   const router = useRouter();
-  const { items, removeItem, updateQuantity, clearCart, isOpen, closeCart, total } = useCart();
+  const {
+    items,
+    removeItem,
+    updateQuantity,
+    clearCart,
+    isOpen,
+    closeCart,
+    total,
+  } = useCart();
   const [removing, setRemoving] = useState<Set<string>>(new Set());
-  const [confirmRemove, setConfirmRemove] = useState<ConfirmTarget | null>(null);
+  const [confirmRemove, setConfirmRemove] = useState<ConfirmTarget | null>(
+    null,
+  );
 
   function handleCheckout() {
     closeCart();
@@ -35,7 +45,12 @@ export default function CartDrawer() {
     });
   }
 
-  function handleDecrement(printId: string, sizeLabel: string, title: string, quantity: number) {
+  function handleDecrement(
+    printId: string,
+    sizeLabel: string,
+    title: string,
+    quantity: number,
+  ) {
     if (quantity <= 1) {
       setConfirmRemove({ printId, sizeLabel, title });
     } else {
@@ -126,7 +141,14 @@ export default function CartDrawer() {
                       <div className="flex items-center justify-between mt-2">
                         <div className="flex items-center border border-stone-200">
                           <button
-                            onClick={() => handleDecrement(print.id, size.label, print.title, quantity)}
+                            onClick={() =>
+                              handleDecrement(
+                                print.id,
+                                size.label,
+                                print.title,
+                                quantity,
+                              )
+                            }
                             disabled={isRemoving}
                             className="cursor-pointer w-7 h-7 flex items-center justify-center text-stone-600 hover:bg-stone-100 transition-colors disabled:pointer-events-none"
                             aria-label="Decrease quantity"
@@ -137,7 +159,9 @@ export default function CartDrawer() {
                             {quantity}
                           </span>
                           <button
-                            onClick={() => updateQuantity(print.id, size.label, quantity + 1)}
+                            onClick={() =>
+                              updateQuantity(print.id, size.label, quantity + 1)
+                            }
                             disabled={isRemoving}
                             className="cursor-pointer w-7 h-7 flex items-center justify-center text-stone-600 hover:bg-stone-100 transition-colors disabled:pointer-events-none"
                             aria-label="Increase quantity"

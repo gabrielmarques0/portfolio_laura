@@ -1,10 +1,20 @@
+"use client";
+
+import { useEffect } from "react";
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import { useCart } from "@/context/CartContext";
 
 function SuccessContent() {
   const t = useTranslations("order");
+  const { clearCart } = useCart();
+
+  useEffect(() => {
+    clearCart();
+  }, [clearCart]);
+
   return (
     <div className="flex flex-col items-center justify-center min-h-[60vh] text-center px-6">
       <div className="w-12 h-12 rounded-full border-2 border-stone-900 flex items-center justify-center mb-8">

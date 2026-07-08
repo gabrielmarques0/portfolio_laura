@@ -15,7 +15,7 @@ export default function CheckoutPage() {
   const t = useTranslations("checkout");
   const tCart = useTranslations("cart");
   const locale = useLocale();
-  const { items, total, clearCart, removeItem, updateQuantity } = useCart();
+  const { items, total, removeItem, updateQuantity } = useCart();
   const [confirmRemove, setConfirmRemove] = useState<ConfirmTarget | null>(null);
 
   const [email, setEmail] = useState("");
@@ -69,7 +69,6 @@ export default function CheckoutPage() {
 
       if (!res.ok) throw new Error("checkout failed");
       const { init_point } = await res.json();
-      clearCart();
       window.location.href = init_point;
     } catch {
       setError(t("error"));

@@ -4,7 +4,8 @@ import {
   createContext,
   useContext,
   useState,
-  useEffect,
+  useSyncExternalStore,
+  useCallback,
   type ReactNode,
 } from "react";
 import type { Print, PrintSize } from "@/lib/prints";
@@ -19,6 +20,7 @@ export type CartItem = {
 type PersistedItem = { printId: string; sizeLabel: string; quantity: number };
 
 const STORAGE_KEY = "laura-cart";
+const EMPTY_ITEMS: CartItem[] = [];
 
 function loadFromStorage(): CartItem[] {
   try {
@@ -48,6 +50,35 @@ function saveToStorage(items: CartItem[]) {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(persisted));
 }
 
+// The cart's source of truth lives outside React state so useSyncExternalStore
+// can hand back a stable, empty snapshot during SSR and the initial hydration
+// pass — matching what the server rendered — then switch to the real
+// localStorage-backed value right after, with no setState-in-effect involved.
+let cachedItems: CartItem[] | null = null;
+const listeners = new Set<() => void>();
+
+function getSnapshot(): CartItem[] {
+  if (cachedItems === null) {
+    cachedItems = loadFromStorage();
+  }
+  return cachedItems;
+}
+
+function getServerSnapshot(): CartItem[] {
+  return EMPTY_ITEMS;
+}
+
+function subscribe(listener: () => void) {
+  listeners.add(listener);
+  return () => listeners.delete(listener);
+}
+
+function commit(next: CartItem[]) {
+  cachedItems = next;
+  saveToStorage(next);
+  listeners.forEach((listener) => listener());
+}
+
 type CartContextType = {
   items: CartItem[];
   addItem: (print: Print, size: PrintSize, quantity?: number) => void;
@@ -67,58 +98,52 @@ type CartContextType = {
 const CartContext = createContext<CartContextType | null>(null);
 
 export function CartProvider({ children }: { children: ReactNode }) {
-  const [items, setItems] = useState<CartItem[]>(loadFromStorage());
+  const items = useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
   const [isOpen, setIsOpen] = useState(false);
 
-  function addItem(print: Print, size: PrintSize, quantity = 1) {
-    setItems((prev) => {
-      const idx = prev.findIndex(
-        (item) => item.print.id === print.id && item.size.label === size.label,
-      );
-      const next =
-        idx >= 0
-          ? prev.map((item, i) =>
-              i === idx
-                ? { ...item, quantity: item.quantity + quantity }
-                : item,
-            )
-          : [...prev, { print, size, quantity }];
-      saveToStorage(next);
-      return next;
-    });
+  const addItem = useCallback((print: Print, size: PrintSize, quantity = 1) => {
+    const current = getSnapshot();
+    const idx = current.findIndex(
+      (item) => item.print.id === print.id && item.size.label === size.label,
+    );
+    const next =
+      idx >= 0
+        ? current.map((item, i) =>
+            i === idx
+              ? { ...item, quantity: item.quantity + quantity }
+              : item,
+          )
+        : [...current, { print, size, quantity }];
+    commit(next);
     setIsOpen(true);
-  }
+  }, []);
 
-  function removeItem(printId: string, sizeLabel: string) {
-    setItems((prev) => {
-      const next = prev.filter(
+  const removeItem = useCallback((printId: string, sizeLabel: string) => {
+    const current = getSnapshot();
+    commit(
+      current.filter(
         (item) => !(item.print.id === printId && item.size.label === sizeLabel),
-      );
-      saveToStorage(next);
-      return next;
-    });
-  }
+      ),
+    );
+  }, []);
 
-  function updateQuantity(
-    printId: string,
-    sizeLabel: string,
-    quantity: number,
-  ) {
-    setItems((prev) => {
-      const next = prev.map((item) =>
-        item.print.id === printId && item.size.label === sizeLabel
-          ? { ...item, quantity }
-          : item,
+  const updateQuantity = useCallback(
+    (printId: string, sizeLabel: string, quantity: number) => {
+      const current = getSnapshot();
+      commit(
+        current.map((item) =>
+          item.print.id === printId && item.size.label === sizeLabel
+            ? { ...item, quantity }
+            : item,
+        ),
       );
-      saveToStorage(next);
-      return next;
-    });
-  }
+    },
+    [],
+  );
 
-  function clearCart() {
-    setItems([]);
-    saveToStorage([]);
-  }
+  const clearCart = useCallback(() => {
+    commit([]);
+  }, []);
 
   const total = items.reduce(
     (sum, item) => sum + item.size.price * item.quantity,
