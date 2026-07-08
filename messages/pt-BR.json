@@ -11,10 +11,19 @@
     "paymentNote": "Pagamento seguro via Mercado Pago",
     "categories": {
       "all": "Todas",
-      "landscape": "Paisagem",
-      "portrait": "Retrato",
+      "people": "Pessoas",
       "urban": "Urbano",
-      "nature": "Natureza"
+      "wildlife": "Fauna",
+      "scenery": "Paisagem"
+    },
+    "filters": {
+      "category": "Categoria",
+      "format": "Formato",
+      "horizontal": "Horizontal",
+      "vertical": "Vertical",
+      "clearAll": "Limpar filtros",
+      "noResults": "Nenhuma impressão corresponde aos filtros selecionados.",
+      "resetFilters": "Redefinir filtros"
     }
   },
   "cart": {

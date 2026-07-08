@@ -11,10 +11,19 @@
     "paymentNote": "Secure payment via Mercado Pago",
     "categories": {
       "all": "All",
-      "landscape": "Landscape",
-      "portrait": "Portrait",
+      "people": "People",
       "urban": "Urban",
-      "nature": "Nature"
+      "wildlife": "Wildlife",
+      "scenery": "Scenery"
+    },
+    "filters": {
+      "category": "Category",
+      "format": "Format",
+      "horizontal": "Horizontal",
+      "vertical": "Vertical",
+      "clearAll": "Clear filters",
+      "noResults": "No prints match the selected filters.",
+      "resetFilters": "Reset filters"
     }
   },
   "cart": {

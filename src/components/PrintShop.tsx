@@ -3,17 +3,18 @@
 import { useState } from "react";
 import Image from "next/image";
 import { useLocale, useTranslations } from "next-intl";
-import { prints, formatPrice, type Print, type PrintSize } from "@/lib/prints";
+import { prints, formatPrice, type Print, type PrintSize, type Category } from "@/lib/prints";
 import { useCart } from "@/context/CartContext";
 
-type Category = "all" | Print["category"];
+type Format = "horizontal" | "vertical";
 
 export default function PrintShop() {
   const t = useTranslations("shop");
   const locale = useLocale();
   const { addItem } = useCart();
 
-  const [activeCategory, setActiveCategory] = useState<Category>("all");
+  const [activeCategories, setActiveCategories] = useState<Set<Category>>(new Set());
+  const [activeFormats, setActiveFormats] = useState<Set<Format>>(new Set());
   const [selected, setSelected] = useState<Print | null>(null);
   const [selectedSize, setSelectedSize] = useState<PrintSize | null>(null);
   const [closing, setClosing] = useState(false);
@@ -21,18 +22,54 @@ export default function PrintShop() {
   const [fullscreen, setFullscreen] = useState(false);
   const [qty, setQty] = useState(1);
 
-  const categories: { key: Category; label: string }[] = [
-    { key: "all", label: t("categories.all") },
-    { key: "landscape", label: t("categories.landscape") },
-    { key: "portrait", label: t("categories.portrait") },
+  const categoryOptions: { key: Category; label: string }[] = [
+    { key: "people", label: t("categories.people") },
     { key: "urban", label: t("categories.urban") },
-    { key: "nature", label: t("categories.nature") },
+    { key: "wildlife", label: t("categories.wildlife") },
+    { key: "scenery", label: t("categories.scenery") },
   ];
 
-  const filtered =
-    activeCategory === "all"
-      ? prints
-      : prints.filter((p) => p.category === activeCategory);
+  const formatOptions: { key: Format; label: string }[] = [
+    { key: "horizontal", label: t("filters.horizontal") },
+    { key: "vertical", label: t("filters.vertical") },
+  ];
+
+  function toggleCategory(cat: Category) {
+    setActiveCategories((prev) => {
+      const next = new Set(prev);
+      if (next.has(cat)) next.delete(cat);
+      else next.add(cat);
+      return next;
+    });
+  }
+
+  function toggleFormat(fmt: Format) {
+    setActiveFormats((prev) => {
+      const next = new Set(prev);
+      if (next.has(fmt)) next.delete(fmt);
+      else next.add(fmt);
+      return next;
+    });
+  }
+
+  function clearFilters() {
+    setActiveCategories(new Set());
+    setActiveFormats(new Set());
+  }
+
+  const hasActiveFilters = activeCategories.size > 0 || activeFormats.size > 0;
+
+  const filtered = prints.filter((p) => {
+    const categoryMatch =
+      activeCategories.size === 0 ||
+      p.categories.some((c) => activeCategories.has(c));
+    const isHorizontal = p.width > p.height;
+    const formatMatch =
+      activeFormats.size === 0 ||
+      (activeFormats.has("horizontal") && isHorizontal) ||
+      (activeFormats.has("vertical") && !isHorizontal);
+    return categoryMatch && formatMatch;
+  });
 
   function openModal(print: Print) {
     setSelected(print);
@@ -60,24 +97,79 @@ export default function PrintShop() {
 
   return (
     <>
-      {/* Category filter */}
-      <div className="flex flex-wrap gap-3 mb-10 border-b border-stone-200 pb-8">
-        {categories.map(({ key, label }) => (
+      {/* Filters */}
+      <div className="mb-10 border-b border-stone-200 pb-8 space-y-5">
+        {/* Category multi-select */}
+        <div className="flex flex-wrap items-center gap-3">
+          <span className="text-xs tracking-widest uppercase text-stone-400 w-20 shrink-0">
+            {t("filters.category")}
+          </span>
           <button
-            key={key}
-            onClick={() => setActiveCategory(key)}
-            className={`cursor-pointer text-xs tracking-widest uppercase px-5 py-2 transition-all duration-300 ${
-              activeCategory === key
+            onClick={() => setActiveCategories(new Set())}
+            className={`cursor-pointer text-xs tracking-widest uppercase px-4 py-2 transition-all duration-200 ${
+              activeCategories.size === 0
                 ? "bg-stone-900 text-white"
                 : "text-stone-500 hover:text-stone-900 border border-stone-200 hover:border-stone-400"
             }`}
           >
-            {label}
+            {t("categories.all")}
           </button>
-        ))}
+          {categoryOptions.map(({ key, label }) => (
+            <button
+              key={key}
+              onClick={() => toggleCategory(key)}
+              className={`cursor-pointer text-xs tracking-widest uppercase px-4 py-2 transition-all duration-200 ${
+                activeCategories.has(key)
+                  ? "bg-stone-900 text-white"
+                  : "text-stone-500 hover:text-stone-900 border border-stone-200 hover:border-stone-400"
+              }`}
+            >
+              {label}
+            </button>
+          ))}
+        </div>
+
+        {/* Format multi-select */}
+        <div className="flex flex-wrap items-center gap-3">
+          <span className="text-xs tracking-widest uppercase text-stone-400 w-20 shrink-0">
+            {t("filters.format")}
+          </span>
+          {formatOptions.map(({ key, label }) => (
+            <button
+              key={key}
+              onClick={() => toggleFormat(key)}
+              className={`cursor-pointer text-xs tracking-widest uppercase px-4 py-2 transition-all duration-200 ${
+                activeFormats.has(key)
+                  ? "bg-stone-900 text-white"
+                  : "text-stone-500 hover:text-stone-900 border border-stone-200 hover:border-stone-400"
+              }`}
+            >
+              {label}
+            </button>
+          ))}
+          {hasActiveFilters && (
+            <button
+              onClick={clearFilters}
+              className="cursor-pointer ml-2 text-xs tracking-widest uppercase text-stone-400 hover:text-stone-700 underline underline-offset-4 transition-colors duration-200"
+            >
+              {t("filters.clearAll")}
+            </button>
+          )}
+        </div>
       </div>
 
       {/* Masonry grid */}
+      {filtered.length === 0 ? (
+        <div className="py-24 text-center">
+          <p className="text-stone-400 text-sm tracking-wide mb-4">{t("filters.noResults")}</p>
+          <button
+            onClick={clearFilters}
+            className="cursor-pointer text-xs tracking-widest uppercase text-stone-600 border border-stone-300 px-6 py-2 hover:bg-stone-900 hover:text-white hover:border-stone-900 transition-all duration-300"
+          >
+            {t("filters.resetFilters")}
+          </button>
+        </div>
+      ) : (
       <div className="columns-1 sm:columns-2 lg:columns-3 gap-4 lg:gap-5">
         {filtered.map((print) => (
           <div
@@ -109,6 +201,7 @@ export default function PrintShop() {
           </div>
         ))}
       </div>
+      )}
 
       {/* Print detail modal */}
       {selected && (
@@ -173,7 +266,7 @@ export default function PrintShop() {
               <div className="p-8 grid sm:grid-cols-2 gap-8">
                 <div>
                   <p className="text-xs tracking-widest uppercase text-stone-400 mb-2">
-                    Laura Peixoto — {t(`categories.${selected.category}`)}
+                    Laura Peixoto — {selected.categories.map((c) => t(`categories.${c}`)).join(", ")}
                   </p>
                   <h2 className="font-[family-name:var(--font-playfair)] text-2xl text-stone-900">
                     {selected.title}
@@ -306,7 +399,7 @@ export default function PrintShop() {
               <div className="lg:w-1/2 p-8 lg:p-10 flex flex-col gap-6">
                 <div>
                   <p className="text-xs tracking-widest uppercase text-stone-400 mb-2">
-                    Laura Peixoto — {t(`categories.${selected.category}`)}
+                    Laura Peixoto — {selected.categories.map((c) => t(`categories.${c}`)).join(", ")}
                   </p>
                   <h2 className="font-[family-name:var(--font-playfair)] text-3xl text-stone-900">
                     {selected.title}

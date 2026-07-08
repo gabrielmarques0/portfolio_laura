@@ -67,13 +67,8 @@ type CartContextType = {
 const CartContext = createContext<CartContextType | null>(null);
 
 export function CartProvider({ children }: { children: ReactNode }) {
-  const [items, setItems] = useState<CartItem[]>([]);
+  const [items, setItems] = useState<CartItem[]>(loadFromStorage());
   const [isOpen, setIsOpen] = useState(false);
-
-  // Hydrate from localStorage once on mount
-  useEffect(() => {
-    setItems(loadFromStorage());
-  }, []);
 
   function addItem(print: Print, size: PrintSize, quantity = 1) {
     setItems((prev) => {
